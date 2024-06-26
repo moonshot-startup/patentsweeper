@@ -1,3 +1,4 @@
 .env
+*/**/.env
 frontend/node_modules/*
 backend/*/**/*.cpython-311.pyc

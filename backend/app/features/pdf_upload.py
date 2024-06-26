@@ -1,26 +1,23 @@
 from fastapi import APIRouter, File, UploadFile, HTTPException
 from fastapi.responses import JSONResponse
 from config import UPLOAD_DIRECTORY
+from .keywords_extractions import extract_keywords
+from PyPDF2 import PdfReader
 import os
 import io
-import random
-import string
-from PyPDF2 import PdfReader
+
+import hashlib
 
 
 def process_pdf(contents):
     pdf = PdfReader(io.BytesIO(contents))
     num_pages = len(pdf.pages)
 
-    # Extract text from the first page (you can modify this to extract from all pages if needed)
-    first_page = pdf.pages[0]
-    text = first_page.extract_text()
-
-    # get process id
-    query_id = ''.join(random.sample(string.ascii_letters + string.digits, 10))
-    # get random 10 keyword placeholder from the text
-    keyword = random.sample(text.split(), 10)
-
+    # Extract text from the PDF
+    text = '\n------------New Page------------\n'.join([page.extract_text() for page in pdf.pages])
+    # get process id based on the hash of the text
+    query_id = hashlib.md5(text.encode()).hexdigest()
+    keyword = extract_keywords(text)
     return {
         "query_id": query_id,
         "keyword": keyword
