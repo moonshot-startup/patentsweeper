@@ -13,6 +13,14 @@ import string
 
 app = FastAPI()
 
+# Add CORS middleware
+app.add_middleware(
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
+
 # Database setup
 SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
