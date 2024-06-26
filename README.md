@@ -30,4 +30,5 @@ This project is a patent search and analysis tool that consists of a PostgreSQL 
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under CC BY-NC 4.0. For more information, see [LICENSE.md](LICENSE.md).
+```
