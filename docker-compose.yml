@@ -1,0 +1,28 @@
+version: '3'
+services:
+  python-api:
+    image: mcr.microsoft.com/devcontainers/python:1-3.11-bookworm
+    volumes:
+      - ./backend:/workspace/backend
+    working_dir: /workspace/backend
+    command: bash -c "pip install poetry && poetry install && poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://patent_user:patent_password@db/patent_db
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: patent_db
+      POSTGRES_USER: patent_user
+      POSTGRES_PASSWORD: patent_password
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
