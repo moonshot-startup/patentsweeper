@@ -6,6 +6,7 @@ from sqlalchemy import create_engine, Column, Integer, String, JSON
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from pydantic import BaseModel, Field
+from fastapi.middleware.cors import CORSMiddleware
 import requests
 import random
 import os
@@ -13,12 +14,21 @@ import string
 
 app = FastAPI()
 
+# CORS configuration
+origins = [
+    "http://localhost",
+    "http://localhost:8080",
+    "http://localhost:3000",
+    # Add other origins as needed
+]
+
 # Add CORS middleware
 app.add_middleware(
-    allow_origins=["*"],  # Allows all origins
+    CORSMiddleware,
+    allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],  # Allows all methods
-    allow_headers=["*"],  # Allows all headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Database setup
