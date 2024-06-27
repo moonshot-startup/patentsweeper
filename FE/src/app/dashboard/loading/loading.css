@@ -1,0 +1,26 @@
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    gap: 20px;
+    .keywords-container {
+        margin-top: 20px;
+        overflow: hidden;
+        display: flex;
+        flex-wrap: wrap;
+        width: 70%;
+        justify-content: center;
+        gap: 12px;
+        
+        .keyword {
+            padding: 6px 12px;
+            border-radius: 4px;
+            background-color: white;
+            box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+            opacity: 1;
+            transition: background-color 1s ease-in-out;
+        }
+    }
+}
