@@ -34,9 +34,12 @@ export default function Loading() {
     const fetchPatents = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/search-best-patents`,
+          `http://localhost:8000/patent/search-best-patents`,
           {
             method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
             body: JSON.stringify({ keywords }),
           }
         );

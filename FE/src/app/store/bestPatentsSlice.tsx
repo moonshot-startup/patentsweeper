@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const bestPatentsSlice = createSlice({
-  name: "bestPatents",
+export const patentsSlice = createSlice({
+  name: "patents",
   initialState: {
     value: [],
   },
@@ -13,6 +13,6 @@ export const bestPatentsSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { update } = bestPatentsSlice.actions;
+export const { update } = patentsSlice.actions;
 
-export default bestPatentsSlice.reducer;
+export default patentsSlice.reducer;

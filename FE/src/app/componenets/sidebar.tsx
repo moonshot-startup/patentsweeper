@@ -8,8 +8,16 @@ import "./Sidebar.css";
 const Sidebar: React.FC = () => {
   return (
     <div className="sidebar">
+      <span className="title" >
+      <a href="/">
       <HiOutlineClipboardDocumentList className="main-icon" />
-      <span className="title">Patent Sweeper</span>
+      </a>
+      </span>
+      <span className="title" >
+      <a href="/">
+        Patent Sweeper
+        </a>
+      </span>
       <nav>
         <ul>
           <li>

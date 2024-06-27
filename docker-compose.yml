@@ -21,8 +21,8 @@ services:
       POSTGRES_DB: patent_db
       POSTGRES_USER: patent_user
       POSTGRES_PASSWORD: patent_password
-    ports:
-      - "5432:5432"
+    # ports:
+    #   - "5432:5432"
 
 volumes:
   postgres_data:

@@ -1,8 +1,8 @@
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_groq import ChatGroq
 import dotenv
-
 dotenv.load_dotenv()
+
 
 class Keywords(BaseModel):
     """
@@ -11,19 +11,27 @@ class Keywords(BaseModel):
     keywords: str = Field(..., title="Keywords", description="Keywords extracted from the text")
 
 
-    
-
 def extract_keywords(text: str):
-    chat = ChatGroq(temperature=0.1, 
-                    model="llama3-70b-8192",)
+    chat = ChatGroq(temperature=0, model="llama3-70b-8192")  # using low temperature to get repeatable results
 
     structured_llm = chat.with_structured_output(Keywords)
     prompt_template = """You are patent lawyer with years of experience in the field.
-You about the get text of a draft of a patent. you need to extract the keywords as many as possible from the text to 
-understand the main points of the patent:
+You about the get text of a draft of a patent. you need to extract the most meaningful keywords from the text to 
+understand the main points of the patent
+{suffix}
 {text}"""
-    return structured_llm.invoke(prompt_template.format(text=text)).keywords.split(", ")
-    
+    # trying upto 10 times to get the keywords if the list is empty
+    results = structured_llm.invoke(prompt_template.format(text=text, suffix='')).keywords.split(", ")
+    for i in range(10):
+        if len(results) > 0:
+            break
+        # change the prompt slightly to get different results
+        results = structured_llm.invoke(
+            prompt_template.format(text=text,
+                                   suffix='Please return at least {i + 5} kewords'))
+    return results
+
+
 if __name__ == "__main__":
     out = extract_keywords("""
 Low latency is crucial for Large Language Models (LLMs) because it directly impacts the user experience, model 
