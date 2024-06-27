@@ -1,8 +1,11 @@
+from database import get_db
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from features.patent_search import router as search_router
 from features.pdf_upload import router as upload_router
 from config import CORS_ORIGINS
+from sqlalchemy import text
+import os
 
 app = FastAPI()
 
@@ -18,6 +21,21 @@ app.add_middleware(
 # Include routers
 app.include_router(search_router, prefix="/patent")
 app.include_router(upload_router, prefix="/pdf")
+
+db_generator = get_db()
+db = next(db_generator)
+if (db):
+    print("Running migrations")
+    migrations_dir = "app/migrations"
+    for filename in os.listdir(migrations_dir):
+        if filename.endswith(".sql"):
+            file_path = os.path.join(migrations_dir, filename)
+            print(f"Running migration: {file_path}")
+            with open(file_path, "r") as file:
+                query = file.read()
+                db.execute(text(query))
+                db.commit()
+            print(f"Migration {file_path} completed")
 
 if __name__ == "__main__":
     import uvicorn
