@@ -1,5 +1,9 @@
 import { useRouter } from "next/navigation";
 import React from "react";
+import { FaRocket } from "react-icons/fa";
+import FaPlay from "react-icons/fa";
+import HammerIcon  from '../icons/hammer';
+
 // import './HomePage.css';
 
 const HomePage: React.FC = () => {
@@ -9,19 +13,23 @@ const HomePage: React.FC = () => {
     router.push("dashboard/upload");
   };
 
+
+
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col">
       <main className="container mx-auto my-12 px-4 flex-grow">
-        <section className="bg-white rounded-lg shadow-lg p-8 mb-8">
-          <h2 className="text-2xl font-semibold mb-4">
-            Revolutionary Patent Comparison Tool
-          </h2>
+        <section className="bg-white rounded-lg shadow-lg p-8 mb-8 flex justify-left">
+        <HammerIcon  /> 
+        <div>
+        <h2 className="text-2xl font-semibold mb-4">
+        Get Started with Ease  </h2>
           <p>
             Our platform leverages cutting-edge Large Language Models (LLM) to
             provide comprehensive comparisons of your patent against a vast
             database of existing patents. Ensure the originality and uniqueness
             of your intellectual property with unmatched accuracy and speed.
           </p>
+          </div> 
         </section>
 
         <section className="bg-white rounded-lg shadow-lg p-8 mb-8">
