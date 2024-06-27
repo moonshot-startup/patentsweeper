@@ -22,6 +22,7 @@ class ComparisonResult(BaseModel):
     patent_application_number: str
     similarity_score: float
     explanation: str
+    filelocationURI: str
 
 def extract_text_from_pdf(file: UploadFile) -> str:
     pdf_content = file.file.read()
@@ -36,10 +37,11 @@ def get_patent_details(patent_application_number: str, db: Session) -> dict:
     return {
         "inventionTitle": patent.inventionTitle,
         "abstractText": patent.abstractText,
-        "patentApplicationNumber": patent.patentApplicationNumber
+        "patentApplicationNumber": patent.patentApplicationNumber,
+        "filelocationURI": patent.filelocationURI
     }
 
-def compare_texts(pdf_text: str, patent_text: str, patent_application_number: str) -> ComparisonResult:
+def compare_texts(pdf_text: str, patent_text: str, patent_application_number: str, filelocationURI: str) -> ComparisonResult:
     chat = ChatGroq(temperature=0.1, model="llama3-70b-8192")
     
     prompt = ChatPromptTemplate.from_messages([
@@ -62,7 +64,8 @@ def compare_texts(pdf_text: str, patent_text: str, patent_application_number: st
     return ComparisonResult(
         patent_application_number=patent_application_number,
         similarity_score=similarity_score,
-        explanation=explanation
+        explanation=explanation,
+        filelocationURI=filelocationURI
     )
 
 @router.post("/compare", response_model=ComparisonResult)
@@ -83,6 +86,6 @@ async def compare_patents(
     patent_details = get_patent_details(patent_application_number, db)
     patent_text = f"Title: {patent_details['inventionTitle']}\nAbstract: {patent_details['abstractText']}\nKeywords: {', '.join(extract_keywords(patent_details['abstractText']))}"
     
-    result = compare_texts(pdf_text, patent_text, patent_application_number)
+    result = compare_texts(pdf_text, patent_text, patent_application_number, patent_details['filelocationURI'])
     
     return result
