@@ -22,11 +22,11 @@ const Sidebar: React.FC = () => {
               <HiOutlineDocumentSearch className="sidebar-icon" />
             </a>
           </li>
-          <li>
+          {/* <li>
             <a href="/profile">
               <FaEnvelope className="sidebar-icon" />
             </a>
-          </li>
+          </li> */}
         </ul>
       </nav>
     </div>
