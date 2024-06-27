@@ -2,16 +2,17 @@
 import { useState, useEffect, use } from "react";
 import Spinner from "react-spinners/SyncLoader";
 import "./loading.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "@/app/store/types";
 import { useRouter } from "next/navigation";
+import { update as bestPatentsUpdate } from "../../store/bestPatentsSlice";
 
 export default function Loading() {
   const keywords = useSelector((state: AppState) => state.keywords.value);
-  const queryId = useSelector((state: AppState) => state.queryId.value);
   const [isPainting, setIsPainting] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const dispatch = useDispatch();
   const router = useRouter();
 
   useEffect(() => {
@@ -30,34 +31,34 @@ export default function Loading() {
   }, [isPainting, keywords.length]);
 
   useEffect(() => {
-    const pollStatus = async () => {
-      while (true) {
-        try {
-          const response = await fetch(`http://localhost:3000/status`);
-          if (response.status === 200) {
-            console.log("Status 200 received!");
-            break; // Exit the loop on successful response
-          } else {
-            console.log(`Status ${response.status} - Retrying in 2 seconds...`);
+    const fetchPatents = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/search-best-patents`,
+          {
+            method: "POST",
+            body: JSON.stringify({ keywords }),
           }
-        } catch (error) {
-          console.error("Error fetching status:", error);
+        );
+        if (response.status === 200) {
+          const data = await response.json();
+          dispatch(bestPatentsUpdate(data));
+          router.push("/dashboard/results");
+        } else {
+          console.log(`Error ${response.status}`);
         }
-        await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait for 2 seconds
+      } catch (error) {
+        console.error("Error fetching status:", error);
       }
     };
-
-    pollStatus();
-    console.log("done");
-    // Clean-up function (optional)
-    return () => {
-      // Optionally, you can clean up any resources or timers here
-    };
+    fetchPatents();
+    return () => {};
   }, []); // Empty dependency array means this effect runs only once
 
   return (
     <div className="loading-container">
-      Scanning keywords, please wait patiently...
+      <div>Scanning the web for patents with the following keywords</div>
+      <div>please wait patiently...</div>
       <Spinner className="loader" color="#1976D2" speedMultiplier={0.75} />
       <div className="keywords-container">
         {keywords.map((keyword, index) => (
