@@ -32,8 +32,8 @@ router = APIRouter()
 def search_patents(search_query: SearchQuery, db: Session = Depends(get_db)):
     # Check cache
     cached_results = db.query(PatentSearch).filter_by(query=search_query.query).limit(search_query.rows).all()
-    if len(cached_results) == search_query.rows:
-        return [result.__dict__ for result in cached_results]
+    if 0 < search_query.rows <= len(cached_results):
+        return [result.__dict__ for result in cached_results[:search_query.rows]]
 
     # If not in cache, perform search
     base_url = "https://developer.uspto.gov/ibd-api"
@@ -53,7 +53,7 @@ def search_patents(search_query: SearchQuery, db: Session = Depends(get_db)):
         # Cache the results
         for result in data.get('results', []):
             new_search = PatentSearch(
-                query=search_query.query,
+                query=search_query.query.replace("-", " "),
                 inventionTitle=result.get('inventionTitle'),
                 inventionSubjectMatterCategory=result.get('inventionSubjectMatterCategory'),
                 patentApplicationNumber=result.get('patentApplicationNumber'),

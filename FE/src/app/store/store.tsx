@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import keywordsReducer from "./keywordsSlice";
-import queryIdReducer from "./pdfDataSlice";
+import pdfDateReducer from "./pdfDataSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       keywords: keywordsReducer,
-      queryId: queryIdReducer,
+      pdfData: pdfDateReducer,
     },
   });
 };

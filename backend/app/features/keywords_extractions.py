@@ -10,8 +10,12 @@ class Keywords(BaseModel):
     """
     keywords: str = Field(..., title="Keywords", description="Keywords extracted from the text")
 
+
+    
+
 def extract_keywords(text: str):
-    chat = ChatGroq(temperature=0.1, model="llama3-70b-8192",)
+    chat = ChatGroq(temperature=0.1, 
+                    model="llama3-70b-8192",)
 
     structured_llm = chat.with_structured_output(Keywords)
     prompt_template = """You are patent lawyer with years of experience in the field.
