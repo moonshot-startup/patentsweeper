@@ -11,18 +11,6 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col">
-      <header className="bg-white shadow-md">
-        <div className="container mx-auto py-6 px-4">
-          <h1 className="text-4xl font-bold text-center">
-            Discover the Uniqueness of Your Patent
-          </h1>
-          <p className="text-xl text-center mt-2 text-gray-600">
-            Compare your patent against existing patents using advanced AI
-            technology.
-          </p>
-        </div>
-      </header>
-
       <main className="container mx-auto my-12 px-4 flex-grow">
         <section className="bg-white rounded-lg shadow-lg p-8 mb-8">
           <h2 className="text-2xl font-semibold mb-4">

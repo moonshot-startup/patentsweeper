@@ -1,10 +1,8 @@
 "use client"; // This is a client component 👈🏽
-import { redirect } from "next/navigation";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Upload, Send } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppState } from "@/app/store/types";
+import { useDispatch } from "react-redux";
 import { update } from "../../store/keywordsSlice";
 
 export default function UploadComponent(this: any, props) {
@@ -65,7 +63,7 @@ export default function UploadComponent(this: any, props) {
   };
 
   return (
-    <div className="p-4 bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg shadow-md max-w-sm mx-auto mt-5">
+    <div className="p-4 bg-gradient-to-br from-white to-white rounded-lg shadow-md max-w-sm mx-auto mt-5">
       <h2 className="text-xl font-bold mb-3 text-center text-gray-800">
         File Uploader
       </h2>
