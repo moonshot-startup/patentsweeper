@@ -17,6 +17,9 @@ class PatentSearch(Base):
     abstractText = Column(String)
     publicationDate = Column(String)
     publicationDocumentIdentifier = Column(String)
+    filelocationURI= Column(String)
+    claimText = Column(String)
+    descriptionText = Column(String)
     
 # Schema
 class SearchQuery(BaseModel):
@@ -55,9 +58,12 @@ def search_patents(search_query: SearchQuery, db: Session = Depends(get_db)):
                 inventionSubjectMatterCategory=result.get('inventionSubjectMatterCategory'),
                 patentApplicationNumber=result.get('patentApplicationNumber'),
                 filingDate=result.get('filingDate'),
-                abstractText=result.get('abstractText', ''),
                 publicationDate=result.get('publicationDate'),
-                publicationDocumentIdentifier=result.get('publicationDocumentIdentifier')
+                publicationDocumentIdentifier=result.get('publicationDocumentIdentifier'),
+                filelocationURI=result.get('filelocationURI'),
+                abstractText=result.get('abstractText', [""])[0][:64000],
+                claimText=result.get('claimText', [""])[0][:64000],
+                descriptionText=result.get('descriptionText', [""])[0][:64000],
             )
             db.add(new_search)
         db.commit()
