@@ -5,6 +5,7 @@ import { Upload, Send } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { update as keywordUpdate } from "../../store/keywordsSlice";
 import { update as pdfDateSlice } from "../../store/pdfDataSlice";
+import PdfPreview from '../../componenets/PdfPreview';
 
 export default function UploadComponent(this: any, props) {
   // local state
@@ -66,7 +67,8 @@ export default function UploadComponent(this: any, props) {
   };
 
   return (
-    <div className="p-4 bg-gradient-to-br from-white to-white rounded-lg shadow-md max-w-sm mx-auto mt-5">
+    <div className="flex justify-between items-start w-full">
+    <div className="flex-1 p-4 bg-gradient-to-br from-white to-white rounded-lg shadow-md max-w-sm mx-auto">
       <h2 className="text-xl font-bold mb-3 text-center text-gray-800">
         File Uploader
       </h2>
@@ -126,6 +128,8 @@ export default function UploadComponent(this: any, props) {
           {uploadStatus}
         </p>
       )}
+      <PdfPreview file={file} />
+    </div>
     </div>
   );
 }
