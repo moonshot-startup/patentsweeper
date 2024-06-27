@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+body {
+  display: flex;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.main {
+  padding: 16px;
+  background-color: #f5f5fb;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
