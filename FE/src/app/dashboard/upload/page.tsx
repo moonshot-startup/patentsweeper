@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { Upload, Send } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { update as keywordUpdate } from "../../store/keywordsSlice";
-import { update as queryIdUpdate } from "../../store/queryIdSlice";
+import { update as pdfDateSlice } from "../../store/pdfDataSlice";
 
 export default function UploadComponent(this: any, props) {
   // local state
@@ -52,7 +52,7 @@ export default function UploadComponent(this: any, props) {
       const data = await response.json();
 
       dispatch(keywordUpdate(data.keyword));
-      dispatch(queryIdUpdate(data.query_id));
+      dispatch(pdfDateSlice(formData));
 
       setIsUploading(false);
       router.push("/dashboard/loading");

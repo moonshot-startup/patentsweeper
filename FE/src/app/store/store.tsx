@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import keywordsReducer from "./keywordsSlice";
-import queryIdReducer from "./queryIdSlice";
+import queryIdReducer from "./pdfDataSlice";
 
 export const makeStore = () => {
   return configureStore({

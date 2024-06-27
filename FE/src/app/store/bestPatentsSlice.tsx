@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const queryIdSlice = createSlice({
-  name: "queryId",
+export const bestPatentsSlice = createSlice({
+  name: "bestPatents",
   initialState: {
-    value: null,
+    value: [],
   },
   reducers: {
     update: (state, action) => {
@@ -13,6 +13,6 @@ export const queryIdSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { update } = queryIdSlice.actions;
+export const { update } = bestPatentsSlice.actions;
 
-export default queryIdSlice.reducer;
+export default bestPatentsSlice.reducer;
