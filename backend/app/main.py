@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from features.patent_search import router as search_router
 from features.pdf_upload import router as upload_router
+from features.best_patent_retrieve import router as best_patent_router
 from config import CORS_ORIGINS
 from sqlalchemy import text
 import os
@@ -20,6 +21,7 @@ app.add_middleware(
 
 # Include routers
 app.include_router(search_router, prefix="/patent")
+app.include_router(best_patent_router, prefix="/patent")
 app.include_router(upload_router, prefix="/pdf")
 
 db_generator = get_db()
