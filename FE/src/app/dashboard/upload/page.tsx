@@ -3,7 +3,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Upload, Send } from "lucide-react";
 import { useDispatch } from "react-redux";
-import { update } from "../../store/keywordsSlice";
+import { update as keywordUpdate } from "../../store/keywordsSlice";
+import { update as queryIdUpdate } from "../../store/queryIdSlice";
 
 export default function UploadComponent(this: any, props) {
   // local state
@@ -49,8 +50,10 @@ export default function UploadComponent(this: any, props) {
       }
       setUploadStatus("File uploaded successfully!");
       const data = await response.json();
-      const keywords = data.keyword;
-      dispatch(update(keywords));
+
+      dispatch(keywordUpdate(data.keyword));
+      dispatch(queryIdUpdate(data.query_id));
+
       setIsUploading(false);
       router.push("/dashboard/loading");
     } catch (error) {

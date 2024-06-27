@@ -4,12 +4,15 @@ import Spinner from "react-spinners/SyncLoader";
 import "./loading.css";
 import { useSelector } from "react-redux";
 import { AppState } from "@/app/store/types";
+import { useRouter } from "next/navigation";
 
 export default function Loading() {
   const keywords = useSelector((state: AppState) => state.keywords.value);
+  const queryId = useSelector((state: AppState) => state.queryId.value);
   const [isPainting, setIsPainting] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [intervalTime, setIntervalTime] = useState(5000);
+
+  const router = useRouter();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -21,11 +24,36 @@ export default function Loading() {
         }
         return newIndex;
       });
-      setIntervalTime(Math.max(Math.random() * 4000, 1000));
-    }, intervalTime);
+    }, 1000);
 
     return () => clearInterval(interval);
-  }, [isPainting, keywords.length, intervalTime]);
+  }, [isPainting, keywords.length]);
+
+  useEffect(() => {
+    const pollStatus = async () => {
+      while (true) {
+        try {
+          const response = await fetch(`http://localhost:3000/status`);
+          if (response.status === 200) {
+            console.log("Status 200 received!");
+            break; // Exit the loop on successful response
+          } else {
+            console.log(`Status ${response.status} - Retrying in 2 seconds...`);
+          }
+        } catch (error) {
+          console.error("Error fetching status:", error);
+        }
+        await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait for 2 seconds
+      }
+    };
+
+    pollStatus();
+    console.log("done");
+    // Clean-up function (optional)
+    return () => {
+      // Optionally, you can clean up any resources or timers here
+    };
+  }, []); // Empty dependency array means this effect runs only once
 
   return (
     <div className="loading-container">

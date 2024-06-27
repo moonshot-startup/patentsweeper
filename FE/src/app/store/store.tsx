@@ -1,9 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import keywordsReducer from "./keywordsSlice";
+import queryIdReducer from "./queryIdSlice";
+
 export const makeStore = () => {
   return configureStore({
     reducer: {
       keywords: keywordsReducer,
+      queryId: queryIdReducer,
     },
   });
 };

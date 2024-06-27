@@ -2,9 +2,12 @@
 import { useState, useEffect } from "react";
 import "./results.css";
 import PieChart from "./components/pie-chart";
+import { useSelector } from "react-redux";
+import { AppState } from "@/app/store/types";
 
 export default function Results() {
   const [expandIndex, setExpandIndex] = useState(-1);
+  const queryId = useSelector((state: AppState) => state.queryId.value);
 
   const toggleExpand = (index) => {
     if (expandIndex == index) {
