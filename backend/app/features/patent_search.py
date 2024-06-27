@@ -53,7 +53,7 @@ def search_patents(search_query: SearchQuery, db: Session = Depends(get_db)):
         # Cache the results
         for result in data.get('results', []):
             new_search = PatentSearch(
-                query=search_query.query,
+                query=search_query.query.replace("-", " "),
                 inventionTitle=result.get('inventionTitle'),
                 inventionSubjectMatterCategory=result.get('inventionSubjectMatterCategory'),
                 patentApplicationNumber=result.get('patentApplicationNumber'),
