@@ -2,7 +2,7 @@ import React from "react";
 import { FaHome, FaEnvelope } from "react-icons/fa";
 import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
 import { HiOutlineDocumentSearch } from "react-icons/hi";
-
+import HouseIcon  from '../icons/house';
 import "./Sidebar.css";
 
 const Sidebar: React.FC = () => {
@@ -14,7 +14,7 @@ const Sidebar: React.FC = () => {
         <ul>
           <li>
             <a href="/">
-              <FaHome className="sidebar-icon" />
+              <HouseIcon />
             </a>
           </li>
           <li>
