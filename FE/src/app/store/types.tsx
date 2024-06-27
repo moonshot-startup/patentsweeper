@@ -3,6 +3,7 @@ export interface Patent {
   patentApplicationNumber: string;
   similarity_score?: number;
   explanation?: string;
+  filelocationURI?: string;
 }
 
 export interface AppState {

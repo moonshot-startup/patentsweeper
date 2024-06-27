@@ -10,19 +10,20 @@ export default function PatentCard({ patent }) {
   const [patentState, setPatentState] = useState(patent);
   const [isLoading, setIsLoading] = useState(true);
 
-  pdfFormData?.append(
+  let enriching: boolean = false;
+  const formData = pdfFormData;
+  formData?.append(
     "patent_application_number",
     patentState.patentApplicationNumber
   );
 
   useEffect(() => {
     const enrichPatent = async () => {
-      console.log("enrich");
+      console.log(formData);
       try {
         const response = await fetch(`http://localhost:8000/patent/compare`, {
           method: "POST",
-
-          body: pdfFormData,
+          body: formData,
         });
         if (response.status === 200) {
           const data = await response.json();
@@ -35,15 +36,20 @@ export default function PatentCard({ patent }) {
         console.error("Error fetching status:", error);
       }
     };
-
-    enrichPatent();
+    if (!enriching) {
+      enriching = true;
+      enrichPatent();
+    }
 
     return () => {};
   }, []);
 
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg p-6 bg-white">
-      <h2 className="text-xl font-bold mb-4">{patentState.title}</h2>
+    <div
+      style={{ width: "750px" }}
+      className="max-w-sm rounded overflow-hidden shadow-lg p-6 bg-white"
+    >
+      <h2 className="text-xl font-bold mb-4">{patentState.inventionTitle}</h2>
 
       {isLoading ? (
         <div className="flex justify-center items-center h-16">
@@ -53,16 +59,18 @@ export default function PatentCard({ patent }) {
         <div className="mb-4">
           <div className="flex justify-between mb-1">
             <span className="text-sm font-medium text-gray-700">
-              Similarity Score
+              Unique Score
             </span>
             <span className="text-sm font-medium text-gray-700">
-              {patentState.similarity_score.toFixed(2)}%
+              {(100 - patentState.similarity_score).toFixed(0)}%
             </span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2.5">
             <div
-              className="bg-blue-600 h-2.5 rounded-full"
-              style={{ width: `${patentState.similarity_score}%` }}
+              className="bg-green-400 h-2.5 rounded-full"
+              style={{
+                width: `${(100 - patentState.similarity_score).toFixed(0)}%`,
+              }}
             ></div>
           </div>
         </div>

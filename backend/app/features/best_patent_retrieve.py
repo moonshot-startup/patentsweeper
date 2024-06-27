@@ -12,7 +12,7 @@ class KeywordSearch(BaseModel):
 
 def search_single_keyword(keyword):
     try:
-        with httpx.Client(timeout=30.0) as client:  # Increased timeout to 30 seconds
+        with httpx.Client(timeout=60.0) as client:  # Increased timeout to 30 seconds
             response = client.post(
                 f"http://localhost:{BACKEND_PORT}/patent/search",
                 json={"query": keyword, "rows": 5},
