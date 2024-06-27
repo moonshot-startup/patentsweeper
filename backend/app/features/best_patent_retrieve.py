@@ -28,6 +28,7 @@ def search_single_keyword(keyword):
 
 @router.post("/search-best-patents")
 def search_best_patents(search: KeywordSearch):
+    print(search)
     # Search for each keyword separately
     search_results = [search_single_keyword(keyword) for keyword in search.keywords]
     
